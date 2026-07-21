@@ -64,7 +64,7 @@ class CacheThenNetworkStrategy(
      */
     suspend inline fun <reified T> execute(
         policy: CachePolicy,
-        cacheKey: String,
+        cacheKey: String = "",
         ttlSeconds: Long = 300,
         noinline fetcher: suspend () -> T
     ): Flow<RequestResult<T>> = flow {
@@ -119,12 +119,12 @@ class CacheThenNetworkStrategy(
             emit(RequestResult.FromNetwork(data))
         } catch (e: Exception) {
 
+            if (e is AuthException) {
+                // 已经显示了登录页面，不需要再显示
+                return@flow
+            }
             val networkError = classifyError(e)
             if (hasCache) {
-                if (e is AuthException) {
-                    // 已经显示了登录页面，不需要再显示
-                    return@flow
-                }
                 emit(RequestResult.NetworkErrorWithCache(networkError, "网络异常，显示的是上次数据"))
             } else {
                 emit(RequestResult.Error(networkError))

@@ -1,12 +1,9 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kmp.library)
-    alias(libs.plugins.compose.multiplatform)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.androidLint)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktorfit)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -15,7 +12,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     android {
-        namespace = "com.example.kmpdev.home"
+        namespace = "com.example.user"
         compileSdk {
             version = release(36) {
                 minorApiLevel = 1
@@ -25,10 +22,10 @@ kotlin {
 
         withHostTestBuilder {
         }
-
         androidResources {
             enable = true
         }
+
         withDeviceTestBuilder {
             sourceSetTreeName = "test"
         }.configure {
@@ -43,13 +40,13 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "feature:homeKit"
+    val xcfName = "feature:userKit"
 
-    /*iosX64 {
-        binaries.framework {
-            baseName = xcfName
-        }
-    }*/
+//    iosX64 {
+//        binaries.framework {
+//            baseName = xcfName
+//        }
+//    }
 
     iosArm64 {
         binaries.framework {
@@ -79,7 +76,6 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.ktorfit.lib)
-                implementation(libs.kotlinx.serialization.json)
 
             }
         }
@@ -118,6 +114,7 @@ kotlin {
     }
 
 }
+
 // ktorfit ksp 代码生成配置
 dependencies {
     add("kspCommonMainMetadata", libs.ktorfit.ksp)

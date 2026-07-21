@@ -1,5 +1,6 @@
 package com.example.kmpdev.core.network
 
+import com.example.kmpdev.core.app.RequestParams
 import com.example.kmpdev.core.cache.CacheManager
 import com.example.kmpdev.core.cache.CacheWriteConfig
 import com.example.kmpdev.core.logger.Logger
@@ -12,8 +13,11 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.currentCoroutineContext
@@ -25,10 +29,16 @@ expect fun platformHttpEngine(): HttpClientEngine
 /**
  * 在http客户端增加烂机器或者是参数
  */
-fun createHttpClient(cacheManager: CacheManager, tokenManager: TokenManager): HttpClient {
+fun createHttpClient(cacheManager: CacheManager, tokenManager: TokenManager, requestParams: RequestParams): HttpClient {
     val client = HttpClient(platformHttpEngine()) {
+        defaultRequest {
+            contentType(ContentType.Application.Json)
+        }
         install(createHttpCachePlugin(cacheManager))
-        install(HttpAuthInterceptor) { tokenProvider = { tokenManager.getAccessToken() } }
+        install(HttpAuthInterceptor) {
+            tokenProvider = { tokenManager.getAccessToken() }
+            headerProvider = { requestParams }
+        }
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true

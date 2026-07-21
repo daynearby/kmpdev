@@ -1,12 +1,15 @@
 package com.example.kmpdev.core.network
 
-import com.example.kmpdev.core.cache.CacheManager
 import de.jensklingenberg.ktorfit.Ktorfit
+import io.ktor.client.HttpClient
 
 /**
  * 创建Ktorfit 对象
  */
-fun createKtorfit(cacheManager: CacheManager,baseUrl : String): Ktorfit = Ktorfit.Builder()
-    .httpClient(createHttpClient(cacheManager))
+fun createKtorfit(
+    httpClient: HttpClient,
+    baseUrl: String,
+): Ktorfit = Ktorfit.Builder()
+    .httpClient(httpClient)
     .baseUrl(baseUrl)  // 按环境切换
     .build()

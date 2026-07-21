@@ -14,7 +14,8 @@ kotlin {
 dependencies {
     implementation(projects.core)
     implementation(projects.app)
-    // implementation(projects.feature.home)
+     implementation(projects.feature.home)
+     implementation(projects.feature.user)
 
     implementation(libs.androidx.activity.compose)
 

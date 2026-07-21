@@ -17,7 +17,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +36,14 @@ import rt.app.generated.resources.ic_android
 @Composable
 @Preview
 fun App() {
+    //val getFeedUseCase = koinInject<GetFeedUseCase>()
     RTTheme {
         var showContent by remember { mutableStateOf(false) }
+        /* val use = rememberRTViewModel {
+           HomeViewModel(getFeedUseCase)
+       }
+       val list by use.state.collectAsState()*/
+
         Column(
             modifier = Modifier.Companion
                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -42,13 +52,13 @@ fun App() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Text("标题",)
+            Text("标题")
             Spacer(modifier = Modifier.height(8.dp))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-
+                        //        use.refresh()
                     }
                     .background(
                         color = MaterialTheme.colorScheme.primary,
