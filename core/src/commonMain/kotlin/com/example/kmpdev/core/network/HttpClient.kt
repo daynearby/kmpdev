@@ -3,7 +3,7 @@ package com.example.kmpdev.core.network
 import com.example.kmpdev.core.app.RequestParams
 import com.example.kmpdev.core.cache.CacheManager
 import com.example.kmpdev.core.cache.CacheWriteConfig
-import com.example.kmpdev.core.logger.Logger
+import com.example.kmpdev.core.logger.Slog
 import com.example.kmpdev.core.logger.isDebugBuild
 import com.example.kmpdev.core.network.auth.TokenManager
 import com.example.kmpdev.core.network.interceptors.HttpAuthInterceptor
@@ -60,7 +60,7 @@ fun createHttpClient(cacheManager: CacheManager, tokenManager: TokenManager, req
             install(Logging) {
                 logger = object : KtorLogger {
                     override fun log(message: String) {
-                        Logger.d("Ktor", message)
+                        Slog.d("Ktor", message)
                     }
                 }
                 level = LogLevel.BODY

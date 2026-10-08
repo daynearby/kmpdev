@@ -14,6 +14,7 @@ kotlin {
 dependencies {
     implementation(projects.core)
     implementation(projects.app)
+    implementation(projects.shared)
      implementation(projects.feature.home)
      implementation(projects.feature.user)
 

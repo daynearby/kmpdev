@@ -4,7 +4,7 @@ import com.ctrip.flight.mmkv.MMKV_KMP
 import com.ctrip.flight.mmkv.defaultMMKV
 import com.example.kmpdev.core.cache.CacheManager.Companion.MAX_CACHEABLE_JSON_BYTES
 import com.example.kmpdev.core.cache.CacheManager.Companion.MAX_CACHE_BYTES
-import com.example.kmpdev.core.logger.Logger
+import com.example.kmpdev.core.logger.Slog
 import kotlinx.serialization.json.Json
 import kotlin.math.ceil
 import kotlin.time.Clock
@@ -29,7 +29,7 @@ class MMKVCacheManagerImpl(
     override suspend fun putRawJson(key: String, rawJson: String, ttlSeconds: Long) {
         // 超过阈值 → 跳过缓存（body 为原始文本，直接测长度）
         if (rawJson.encodeToByteArray().size > MAX_CACHEABLE_JSON_BYTES) {
-            Logger.w("CacheManager", "Body size ${rawJson.length} chars exceeds limit, skip: $key")
+            Slog.w("CacheManager", "Body size ${rawJson.length} chars exceeds limit, skip: $key")
             return
         }
         val meta = CacheMeta(
@@ -204,7 +204,7 @@ class MMKVCacheManagerImpl(
 
         val sizeAfter = mmkv.totalSize
         val freedKb = (totalSize - sizeAfter) / 1024
-        Logger.i(
+        Slog.i(
             "CacheManager",
             "trimCache: evicted ${toRemove.size}/${sorted.size} entries, " +
                     "${freedKb}KB freed (${totalSize / 1024}KB → ${sizeAfter / 1024}KB)"

@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonObject
 
 interface HomeRepository {
 
-    @POST("/app/page")
+    @POST("/app/page/{Id}")
     suspend fun getPostList(
         @Path("Id") id: Int,
         @Body json: JsonObject

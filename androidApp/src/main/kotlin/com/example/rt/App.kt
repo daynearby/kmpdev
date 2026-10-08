@@ -9,6 +9,7 @@ import com.example.kmpdev.core.di.coreModuleAndroid
 import com.example.kmpdev.core.logger.initLogStorage
 import com.example.kmpdev.core.util.AppConfig
 import com.example.kmpdev.home.di.homeModule
+import com.example.rt.di.shareModule
 import com.example.user.di.userModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -31,7 +32,7 @@ class App : Application() {
         initMMKV(this)
         startKoin {
             androidContext(this@App)
-            modules(appModule, coreModule, coreModuleAndroid, userModule, homeModule)
+            modules(appModule, coreModule, coreModuleAndroid, shareModule, userModule, homeModule)
         }
 
     }

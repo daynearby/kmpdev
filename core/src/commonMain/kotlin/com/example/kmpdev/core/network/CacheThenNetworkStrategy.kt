@@ -3,7 +3,7 @@ package com.example.kmpdev.core.network
 import com.example.kmpdev.core.cache.CacheManager
 import com.example.kmpdev.core.cache.CachePolicy
 import com.example.kmpdev.core.cache.CacheWriteConfig
-import com.example.kmpdev.core.logger.Logger
+import com.example.kmpdev.core.logger.Slog
 import com.example.kmpdev.core.network.auth.AuthException
 import com.example.kmpdev.core.network.auth.AuthRetryHandler
 import io.ktor.client.network.sockets.ConnectTimeoutException
@@ -107,7 +107,7 @@ class CacheThenNetworkStrategy(
             }
         }
         if (isDuplicate) {
-            Logger.d("CacheThenNetwork", "Duplicate skipped: $cacheKey")
+            Slog.d("CacheThenNetwork", "Duplicate skipped: $cacheKey")
             return@flow
         }
 
