@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktorfit)
     alias(libs.plugins.androidLint)
+    alias(libs.plugins.kotlin.cocoapods)
 }
 
 kotlin {
@@ -70,11 +71,15 @@ kotlin {
         }
     }
 
-    /*cocoapods {
-        pod("MMKV") {
-            version = "2.4.0"
-        }
-    }*/
+//    cocoapods {
+//        pod("MMKV") {
+//            version = "2.4.1"
+//        }
+//    }
+    // 需要苹果电脑环境支持
+    cocoapods {
+        version = "1.17.0"
+    }
     // Source set declarations.
     // Declaring a target automatically creates a source set with the same name. By default, the
     // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is

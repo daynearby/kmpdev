@@ -1,0 +1,24 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '15.0'
+
+target 'iosApp' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for iosApp
+  pod 'MMKV'
+
+  # KMP 入口模块（静态 framework，打包 app/shared/core/feature 全部 Kotlin 代码）
+  pod 'app', :path => '../app'
+
+end
+
+# 统一 Pods 部署目标：当前 Xcode 工具链最低支持 iOS 15.0，
+# MMKV 等三方 pod 声明的 13.0 会导致构建报错
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+    end
+  end
+end

@@ -1,8 +1,6 @@
-import com.android.tools.r8.graph.fa
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    // alias(libs.plugins.kotlin.cocoapods) // 需要macos电脑
+    alias(libs.plugins.kotlin.cocoapods) // 需要macos电脑
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.multiplatform)
@@ -74,17 +72,17 @@ kotlin {
     }
 
     // 需要苹果电脑环境支持
-//    cocoapods {
-//        summary = "App assembly module for kmpDev"
-//        homepage = "https://example.com"
-//        version = "1.0"
-//        ios.deploymentTarget = "15.0"
-//        podfile = project.file("../iosApp/Podfile")
-//        framework {
-//            baseName = "shared"                      // ★ iOS 入口 framework 名称不变
-//            isStatic = true
-//        }
-//    }
+    cocoapods {
+        summary = "App assembly module"
+        homepage = "https://example.com"
+        version = "1.17.0"
+        ios.deploymentTarget = "15.0"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "Shared"                    // ★ 与 Swift 侧 import Shared 一致（框架名即模块名）
+            isStatic = true
+        }
+    }
     // Source set declarations.
     // Declaring a target automatically creates a source set with the same name. By default, the
     // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is

@@ -40,7 +40,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "feature:userKit"
+    val xcfName = "userKit"
 
 //    iosX64 {
 //        binaries.framework {
@@ -76,6 +76,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.ktorfit.lib)
+                implementation(libs.kotlinx.serialization.json)
 
             }
         }

@@ -1,0 +1,27 @@
+PODS:
+  - app (1.17.0)
+  - MMKV (2.4.2):
+    - MMKVCore (~> 2.4.2)
+  - MMKVCore (2.4.2)
+
+DEPENDENCIES:
+  - app (from `../app`)
+  - MMKV
+
+SPEC REPOS:
+  trunk:
+    - MMKV
+    - MMKVCore
+
+EXTERNAL SOURCES:
+  app:
+    :path: "../app"
+
+SPEC CHECKSUMS:
+  app: 41280a75a388b1e2dbc5584561dd31f1882a10ce
+  MMKV: d37bccee64404d7c3e1457fabd9368e78d69a80f
+  MMKVCore: a58d2ce5b580948122e85be3ddf378c9b1ef739e
+
+PODFILE CHECKSUM: 474ab3ab8338973161ae8452e6e2cf5b405a7928
+
+COCOAPODS: 1.17.0

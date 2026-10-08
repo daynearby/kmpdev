@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.cocoapods)
 }
 
 kotlin {
@@ -45,6 +46,11 @@ kotlin {
             baseName = xcfName
         }
     }
+
+    cocoapods {
+        version = "1.17.0"
+    }
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.kotlinx.coroutines.android)
