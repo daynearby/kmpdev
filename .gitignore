@@ -25,3 +25,12 @@
 /temp/*
 /.kotlin/*
 
+# iOS / Xcode
+# CocoaPods 安装产物（由 Podfile.lock + pod install 重建）
+iosApp/Pods/
+# Xcode 用户状态与本地 scheme（非共享内容）
+*.xcuserstate
+xcuserdata/
+*.xcuserdatad/
+
+
