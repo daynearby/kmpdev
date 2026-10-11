@@ -12,7 +12,7 @@ RT 是一个 Kotlin Multiplatform 跨平台应用（Android + iOS），使用 Co
 
 - **构建栈**：Gradle 9.4.1 / AGP 9.2.1 / Kotlin 2.4.0
 - **SDK**：compileSdk 36/37、minSdk 24、targetSdk 36
-- **主壳模块**：`:androidApp`（Android Application，构建入口 `./gradlew :androidApp:assembleDebug`）
+- **主壳模块**：`:androidApp`（Android Application，构建入口 `./gradlew :androidApp:assembleDebug`）/ `:iosApp`（Xcode 工程，CocoaPods 引入 `:app` framework，名 `Shared`）
 
 ---
 
@@ -21,7 +21,8 @@ RT 是一个 Kotlin Multiplatform 跨平台应用（Android + iOS），使用 Co
 ```
 RT/
 ├── androidApp/            # Android 应用壳（唯一 Application 入口）
-├── app/                   # KMP 根组件：导航路由表、根依赖注入、Compose 根树
+├── iosApp/                # iOS 应用壳（Xcode 工程 + Podfile，CocoaPods 引入 :app framework）
+├── app/                   # KMP 根组件：导航路由表、根依赖注入、Compose 根树、iOS 入口
 ├── core/                  # 基础能力层：网络/DB/缓存/日志/依赖注入的公共封装
 ├── shared/                # 共享层：跨模块公共模型、常量、工具（KMP common）
 ├── feature/
@@ -42,17 +43,18 @@ RT/
 模块间只允许**单向向下依赖**，禁止反向依赖、禁止循环依赖：
 
 ```
-androidApp ──→ app ──→ feature:home / feature:user
-                 ↑            ↑
-                 └──── core ◄─┘
-                        ↑
-                     shared
+androidApp / iosApp ──→ app ──→ feature:home / feature:user
+                          ↑            ↑
+                          └──── core ◄─┘
+                                 ↑
+                              shared
 ```
 
 | 模块 | 类型 | 职责 | 允许依赖 |
 |------|------|------|---------|
 | `:androidApp` | Android Application | 壳入口、Application 初始化 | app、feature... |
-| `:app` | KMP | 根组件、Navigation KMP 路由、Koin 根装配 | core、shared、feature... |
+| `:iosApp` | Xcode 工程 | iOS 壳（`iosApp.xcworkspace`），CocoaPods 引入 `:app` framework | :app（经 Pods）、MMKV |
+| `:app` | KMP | 根组件、Navigation KMP 路由、Koin 根装配、iOS 入口 `MainViewController` | core、shared、feature... |
 | `:core` | KMP | 基础封装：network/DB/cache/log/DI 通用能力 | shared |
 | `:shared` | KMP | 公共模型、DTO、枚举、util | （不依赖 feature） |
 | `:feature:home` | KMP | 首页功能 | core、shared、app（路由契约） |

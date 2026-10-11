@@ -14,6 +14,7 @@ RT 是一个 Kotlin Multiplatform（KMP）跨平台应用，覆盖 Android 与 i
 | Android Studio | 最新稳定版（含 AGP 9.x 兼容支持） | 官方下载：<https://developer.android.com/studio> |
 | Gradle | 9.4.1（项目 wrapper，无需手动安装） | 直接使用 `gradlew` / `gradlew.bat` |
 | Xcode + macOS | iOS 构建需要 | 仅 `:iosApp` / iOS target 需要，Windows 上自动跳过（`kotlin.native.ignoreDisabledTargets=true`） |
+| CocoaPods | 最新稳定版 | iOS 依赖管理（`iosApp/Podfile`）；`gem install cocoapods` 或 `brew install cocoapods` |
 
 > **无 JDK 时**：安装 Android Studio（自带 JBR 21），并在 `File > Project Structure > SDK Location` 确认 JDK 指向 JBR 即可，无需单独安装 JDK。
 
@@ -42,7 +43,10 @@ RT/
 ├── feature/
 │   ├── home/            # 首页业务功能
 │   └── user/            # 用户业务功能
-├── iosApp/              # iOS 壳（Xcode 工程，引用 KMP framework）
+├── iosApp/              # iOS 壳（Xcode 工程）
+│   ├── Podfile          # CocoaPods 声明（引入 :app framework 与 MMKV）
+│   ├── iosApp.xcworkspace   # Xcode 工作区（打开此文件运行）
+│   └── iosApp.xcodeproj # Xcode 工程
 ├── gradle/
 │   └── libs.versions.toml  # 依赖版本统一管理
 ├── docs/                # 项目文档（见下方导航）
@@ -65,7 +69,17 @@ RT/
 
 > Windows 使用 `.\gradlew`，macOS / Linux 使用 `./gradlew`。命令在项目根目录执行。
 
-## 五、如何新增模块
+## 五、iOS 构建（macOS + Xcode）
+
+1. **环境**：macOS + Xcode（含命令行工具）、CocoaPods。
+2. **安装 Pods**：在项目根目录执行 `cd iosApp && pod install`（首次生成 `iosApp.xcworkspace` 与 `Pods/`）。
+3. **打开工程**：用 Xcode 打开 `iosApp/iosApp.xcworkspace`（**不是** `iosApp.xcodeproj`）。
+4. **运行**：选择 `iosApp` scheme 与目标模拟器 / 真机，点击 Run。
+5. **构建原理**：Xcode 构建时由 `pod 'app'` 的 podspec `script_phases` 自动执行 `./gradlew :app:syncFramework` 生成 `Shared.framework`；Swift 侧 `ContentView.swift` 通过 `import Shared` 调用 `MainViewControllerKt.MainViewController()` 挂载共享 Compose UI。
+
+> iOS 目标部署版本为 15.0（`Podfile` 的 `post_install` 统一各 Pod 的 `IPHONEOS_DEPLOYMENT_TARGET`）。CocoaPods 集成时 framework 名为 `Shared`（直接 framework 目标名为 `appKit`）。
+
+## 六、如何新增模块
 
 1. **新建目录**：按 `feature/<name>` 或顶层模块命名规范创建模块目录（如 `feature/order`），命名使用 kebab-case。
 2. **注册模块**：在 `settings.gradle.kts` 添加 `include(":feature:order")`。
@@ -74,7 +88,7 @@ RT/
 5. **装配**：在 `:app` 的 commonMain 依赖中加入 `implementation(projects.feature.order)` 并按路由注册页面。
 6. **文档**：按 [README.md](README.md) 中的文档规范补充模块 `DOMAIN.md`（待模板）。
 
-## 六、相关文档导航
+## 七、相关文档导航
 
 - [README.md](README.md)：文档总索引（5 域导航）
 - [BUILD_CONFIG.md](BUILD_CONFIG.md)：构建配置、依赖版本、构建命令

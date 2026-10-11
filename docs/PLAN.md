@@ -39,6 +39,7 @@
 | 2026-08-06 | 部署 9 个技能文档到 docs/skills/ | 已完成 |
 | 2026-08-06 | 生成 4 份项目文档（README/BUILD_CONFIG/GETTING_STARTED/reference-resource） | 已完成 |
 | 2026-08-06 | 生成 6 个模块 DOMAIN.md | 已完成 |
+| 2026-10-09 | 修复 iOS 编译失败并接通 CocoaPods 集成（iOS 入口迁至 `:app`、framework 统一为 `Shared`、Podfile/podspec 接入、移除 Xcode 旧 `Compile Kotlin Framework` 脚本、feature framework 名去冒号） | 编译通过（提交 `587b06e`） |
 
 ---
 

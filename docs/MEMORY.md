@@ -24,6 +24,12 @@
 | kotlinx-coroutines | Kotlin 协程库 |
 | shell / androidApp | 主 Android Application 壳模块（构建入口） |
 | feature | 功能模块（feature:home、feature:user） |
+| iosApp | iOS 壳模块（Xcode 工程 `iosApp.xcworkspace` + `Podfile`） |
+| CocoaPods / Podfile | iOS 依赖管理与声明文件（`iosApp/Podfile`） |
+| podspec | CocoaPods 规格文件，由 `:app` / `:core` / `:shared` 的 cocoapods 插件生成 |
+| Shared framework | `:app` 编译产出的 iOS 静态 framework（CocoaPods 集成，`baseName = "Shared"`），Swift 侧 `import Shared`；直接 framework 目标名为 `appKit` |
+| MainViewController | iOS UI 入口（`ComposeUIViewController { App() }`），位于 `:app` 的 `iosMain` |
+| xcworkspace | Xcode 工作区（`iosApp.xcworkspace`，含 `iosApp.xcodeproj` + `Pods/Pods.xcodeproj`） |
 
 ---
 
@@ -42,6 +48,9 @@
 | 「依赖注入 / DI」 | 指 Koin |
 | 「共享 / 共模」 | 指 `shared` 模块公共模型 |
 | 「功能模块 home / user」 | 指 `feature:home` / `feature:user` |
+| 「iOS / iOS 壳」 | 指 `:iosApp`（Xcode 工程），CocoaPods 引入 `:app` framework（名 `Shared`） |
+| 「Pods / pod install」 | iOS CocoaPods 依赖安装，配置在 `iosApp/Podfile` |
+| 「iOS 入口 / MainViewController」 | 指 `:app` 的 `iosMain` 中 `MainViewController()`，被 Swift `ContentView.swift` 调用 |
 
 ---
 

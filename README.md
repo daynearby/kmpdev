@@ -194,11 +194,13 @@ class CacheWriteConfig(
 
 ## 进度
 
-> iOS没搞，mac mini太旧，新版涨价离谱，后面买了再验证
->
+> iOS 编译已修复并接通 CocoaPods 集成（iOS 入口迁移至 `:app`、framework 统一为 `Shared`、Podfile/podspec 接入，见提交 `587b06e`）。
+> 真机 / 模拟器运行验证仍待后续处理（mac mini 太旧，后面买了再验证）。
 
 | 模块 | 验证项 | 验证方式 | 预期结果 |状态|
 |:---|:---|:---|:---|:---|
+| **iOS** | 编译（CocoaPods 集成） | `cd iosApp && pod install` + Xcode 打开 `iosApp.xcworkspace` 构建 | 编译通过，产出 Shared.framework |✅|
+| | 模拟器 / 真机运行 | Xcode Run `iosApp` scheme | App 正常启动 |⏳|
 | **日志** | Kermit 输出 | Android 模拟器运行，查看 Logcat | 看到 Kermit 输出的日志 |✅|
 | | kmp-xlog 持久化 | 检查日志文件目录 | 日志文件生成成功 |✅|
 | **数据库** | SQLDelight 表创建 | 运行初始化代码 | 数据库文件生成，表结构正确 ||
@@ -207,6 +209,6 @@ class CacheWriteConfig(
 | | 持久化验证 | 重启应用后读取 | 数据依然存在 |⏳|
 | **安全存储** | 自封装安全存储 | 调用 SecureStorage API | 敏感数据加密存储 |✅|
 | **网络** | Ktor 请求 | 调用 HttpClient | 请求成功，响应正确 |✅|
-| | API 统一封装 | 模拟网络异常 | 正确返回 Error 状态 |⏳|
+| | API 统一封装 | 模拟网络异常 | 正确返回 Error 状态 |✅|
 | **导航** | Navigation Compose KMP 类型安全 | 编译检查路由 | 编译期类型检查通过 |⏳|
 | | 拦截器鉴权 | 未登录点击需登录页面 | 自动重定向到登录页 |⏳|

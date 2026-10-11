@@ -48,6 +48,11 @@
 - **路径**: com.example.kmpdev.app/Platform
 - **职责**: expect 平台抽象，各平台提供实际实现
 
+### 类名: MainViewController()
+- **路径**: app/src/iosMain/kotlin/com/example/kmpdev/app/MainViewController.kt
+- **职责**: iOS UI 入口，用 `ComposeUIViewController { App() }` 将共享 Compose UI 挂载到 UIKit，供 Swift 侧 `MainViewControllerKt.MainViewController()` 调用
+- **说明**: 该入口从 `shared` 迁移至 `:app`，避免 `App()` 所在的 `:app` 反向依赖 `:shared` 造成的循环引用
+
 ---
 
 ## 依赖关系
@@ -64,6 +69,7 @@
 | 被依赖模块 | 说明 |
 |-----------|------|
 | androidApp | Android 壳挂载 App() 根组件 |
+| iosApp | iOS 壳通过 CocoaPods 引入 `Shared` framework，调用 `MainViewController()` 挂载 App() |
 
 ---
 
@@ -72,3 +78,4 @@
 | 日期 | 版本 | 变更内容 |
 |------|------|----------|
 | 2026-08-06 | 2.0 | 初始版本，自动生成（Android Agent Rule v2） |
+| 2026-10-09 | 2.1 | 新增 iOS 入口 MainViewController（自 shared 迁移，配合 CocoaPods framework 集成，提交 `587b06e`） |
